@@ -14,6 +14,7 @@ namespace HighlightModifiedCells {
     public class ChangedCellsHighlightBehavior : Behavior<GridControl> {
         string UnboundColumnPrefix = "IsEdited_";
         Dictionary<CellInfo, bool> modifiedCells = new Dictionary<CellInfo, bool>();
+        Dictionary<CellInfo, object> originalValues = new Dictionary<CellInfo, object>();
         public static readonly DependencyProperty HighlightBrushProperty = DependencyProperty.Register("HighlightBrush", typeof(Brush), typeof(ChangedCellsHighlightBehavior));
         public Brush HighlightBrush {
             get { return (Brush)GetValue(HighlightBrushProperty); }
@@ -40,6 +41,32 @@ namespace HighlightModifiedCells {
         void OnViewCellValueChanged(object sender, CellValueChangedEventArgs e) {
             if (!e.Column.FieldName.StartsWith(UnboundColumnPrefix)) {
                 AssociatedObject.SetCellValue(e.RowHandle, UnboundColumnPrefix + e.Column.FieldName, true);
+
+                CellInfo modifiedCell = new CellInfo(
+                    e.Row,
+                    $"{UnboundColumnPrefix}{e.Column.FieldName}");
+
+                if (originalValues.ContainsKey(modifiedCell))
+                {
+                    if ((originalValues[modifiedCell]?.Equals(e.Value) == true)
+                        ||
+                        (originalValues[modifiedCell] == null && e.Value == null))
+                    {
+                        modifiedCells[modifiedCell] = false;
+                    }
+                    else
+                    {
+                        modifiedCells[modifiedCell] = true;
+                    }
+                }
+                else
+                {
+                    originalValues.Add(
+                        modifiedCell,
+                        e.OldValue);
+
+                    modifiedCells[modifiedCell] = true;
+                }
             }
         }
         void OnGridCustomUnboundColumnData(object sender, GridColumnDataEventArgs e) {
@@ -48,10 +75,6 @@ namespace HighlightModifiedCells {
                     bool res = false;
                     modifiedCells.TryGetValue(new CellInfo(AssociatedObject.GetRowByListIndex(e.ListSourceRowIndex), e.Column.FieldName), out res);
                     e.Value = res;
-                }
-                else {
-                    CellInfo modifiedCell = new CellInfo(AssociatedObject.GetRowByListIndex(e.ListSourceRowIndex), e.Column.FieldName);
-                    modifiedCells[modifiedCell] = true;
                 }
             }
         }

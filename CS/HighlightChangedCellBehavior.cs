@@ -1,19 +1,17 @@
-﻿using DevExpress.Data;
+using DevExpress.Data;
 using DevExpress.Mvvm.UI.Interactivity;
 using DevExpress.Xpf.Grid;
-using DevExpress.Xpf.Grid.ConditionalFormatting;
 using System;
-using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using System.Windows;
 using System.Windows.Media;
 
 namespace HighlightModifiedCells {
-    public class ChangedCellsHighlightBehavior : Behavior<GridControl> {
-        string UnboundColumnPrefix = "IsEdited_";
-        Dictionary<CellInfo, bool> modifiedCells = new Dictionary<CellInfo, bool>();
+	public class ChangedCellsHighlightBehavior : Behavior<GridControl> {
+        const string UnboundColumnPrefix = "IsEdited_";
+        Dictionary<Tuple<object, string>, bool> modifiedCells = new Dictionary<Tuple<object, string>, bool>();
+        Dictionary<Tuple<object, string>, object> originalValues = new Dictionary<Tuple<object, string>, object>();
         public static readonly DependencyProperty HighlightBrushProperty = DependencyProperty.Register("HighlightBrush", typeof(Brush), typeof(ChangedCellsHighlightBehavior));
         public Brush HighlightBrush {
             get { return (Brush)GetValue(HighlightBrushProperty); }
@@ -25,70 +23,61 @@ namespace HighlightModifiedCells {
             }
         }
         protected override void OnAttached() {
+            base.OnAttached();
             AssociatedObject.CustomUnboundColumnData += OnGridCustomUnboundColumnData;
             AssociatedObject.Loaded += OnGridLoaded;
         }
         protected override void OnDetaching() {
             AssociatedObject.CustomUnboundColumnData -= OnGridCustomUnboundColumnData;
             View.CellValueChanged -= OnViewCellValueChanged;
+            base.OnDetaching();
         }
         void OnGridLoaded(object sender, System.Windows.RoutedEventArgs e) {
             AssociatedObject.Loaded -= OnGridLoaded;
             View.CellValueChanged += OnViewCellValueChanged;
-            InitializeFormattings(CreateUnboundColumns());
+            CreateColumnsAndConditions();
         }
         void OnViewCellValueChanged(object sender, CellValueChangedEventArgs e) {
-            if (!e.Column.FieldName.StartsWith(UnboundColumnPrefix)) {
-                AssociatedObject.SetCellValue(e.RowHandle, UnboundColumnPrefix + e.Column.FieldName, true);
+            if (!IsServiceColumn(e.Column)) {
+                var fieldName = $"{UnboundColumnPrefix}{e.Column.FieldName}";
+                var key = Tuple.Create(e.Row, fieldName);
+                object originalValue;
+                bool isModified = true;
+                if (originalValues.TryGetValue(key, out originalValue))
+                    isModified = !Equals(originalValue, e.Value);
+                else
+                    originalValues[key] = e.OldValue;
+                AssociatedObject.SetCellValue(e.RowHandle, fieldName, isModified);
             }
         }
         void OnGridCustomUnboundColumnData(object sender, GridColumnDataEventArgs e) {
-            if (e.Column.FieldName.StartsWith(UnboundColumnPrefix)) {
+            if (IsServiceColumn(e.Column)) {
+                var key = Tuple.Create(AssociatedObject.GetRowByListIndex(e.ListSourceRowIndex), e.Column.FieldName);
                 if (e.IsGetData) {
-                    bool res = false;
-                    modifiedCells.TryGetValue(new CellInfo(AssociatedObject.GetRowByListIndex(e.ListSourceRowIndex), e.Column.FieldName), out res);
-                    e.Value = res;
+                    bool res;
+                    e.Value = modifiedCells.TryGetValue(key, out res) ? res : false;
                 }
-                else {
-                    CellInfo modifiedCell = new CellInfo(AssociatedObject.GetRowByListIndex(e.ListSourceRowIndex), e.Column.FieldName);
-                    modifiedCells[modifiedCell] = true;
-                }
+                if (e.IsSetData)
+                    modifiedCells[key] = (bool)e.Value;
             }
         }
-        List<GridColumn> CreateUnboundColumns() {
-            List<GridColumn> unboundColumns = new List<GridColumn>();
-            foreach (GridColumn column in AssociatedObject.Columns) {
-                GridColumn stateKeeperUnboundColumn = new GridColumn();
-                stateKeeperUnboundColumn.FieldName = UnboundColumnPrefix + column.FieldName;
-                stateKeeperUnboundColumn.UnboundType = UnboundColumnType.Boolean;
-                stateKeeperUnboundColumn.Visible = false;
-                stateKeeperUnboundColumn.ShowInColumnChooser = false;
-                stateKeeperUnboundColumn.Tag = column.FieldName;
-                unboundColumns.Add(stateKeeperUnboundColumn);
-            }
-            return unboundColumns;
+        static bool IsServiceColumn(GridColumn column) {
+            return column.FieldName.StartsWith(UnboundColumnPrefix);
         }
-        void InitializeFormattings(List<GridColumn> unboundColumns) {
-            foreach (GridColumn unboundColumn in unboundColumns) {
+        void CreateColumnsAndConditions() {
+            foreach (GridColumn column in AssociatedObject.Columns.ToList()) {
+                GridColumn unboundColumn = new GridColumn();
+                unboundColumn.FieldName = UnboundColumnPrefix + column.FieldName;
+                unboundColumn.UnboundType = UnboundColumnType.Boolean;
+                unboundColumn.Visible = false;
+                unboundColumn.ShowInColumnChooser = false;
                 AssociatedObject.Columns.Add(unboundColumn);
-                View.FormatConditions.Add(new FormatCondition() { FieldName = (string)unboundColumn.Tag, Expression = string.Format("[{0}] = true", unboundColumn.FieldName), Format = new DevExpress.Xpf.Core.ConditionalFormatting.Format() { Background = HighlightBrush } });
+                View.FormatConditions.Add(new FormatCondition() {
+                    FieldName = column.FieldName,
+                    Expression = string.Format("[{0}] = true", unboundColumn.FieldName),
+                    Format = new DevExpress.Xpf.Core.ConditionalFormatting.Format() { Background = HighlightBrush }
+                });
             }
-        }
-    }
-
-    public class CellInfo {
-        public object Row { get; set; }
-        public string FieldName { get; set; }
-        public CellInfo(object row, string fieldName) {
-            Row = row;
-            FieldName = fieldName;
-        }
-        public override bool Equals(object obj) {
-            CellInfo other = obj as CellInfo;
-            return other != null && other.FieldName == FieldName && object.ReferenceEquals(this.Row, other.Row);
-        }
-        public override int GetHashCode() {
-            return Row.GetHashCode() ^ FieldName.GetHashCode();
         }
     }
 }

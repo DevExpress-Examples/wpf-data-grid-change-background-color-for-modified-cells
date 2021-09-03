@@ -1,6 +1,6 @@
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 2012
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HighlightModifiedCells", "HighlightModifiedCells.csproj", "{FFF05F48-E791-47E6-81AC-CB6A2D0DFE5E}"
+# Visual Studio 16
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HighlightModifiedCells", "HighlightModifiedCells.Net5.csproj", "{FFF05F48-E791-47E6-81AC-CB6A2D0DFE5E}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

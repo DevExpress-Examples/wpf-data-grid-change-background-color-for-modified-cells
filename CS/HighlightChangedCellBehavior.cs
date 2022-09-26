@@ -68,7 +68,7 @@ namespace HighlightModifiedCells {
             foreach (GridColumn column in AssociatedObject.Columns.ToList()) {
                 GridColumn unboundColumn = new GridColumn();
                 unboundColumn.FieldName = UnboundColumnPrefix + column.FieldName;
-                unboundColumn.UnboundType = UnboundColumnType.Boolean;
+                unboundColumn.UnboundDataType = typeof(bool);
                 unboundColumn.Visible = false;
                 unboundColumn.ShowInColumnChooser = false;
                 AssociatedObject.Columns.Add(unboundColumn);

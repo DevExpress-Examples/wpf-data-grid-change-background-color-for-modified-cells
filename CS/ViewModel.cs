@@ -1,15 +1,9 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.Linq;
-using System.Text;
 
 namespace HighlightModifiedCells {
     public class ViewModel {
-        public ObservableCollection<Customer> Customers {
-            get;
-            set;
-        }
+        public ObservableCollection<Customer> Customers { get; set; }
         public ViewModel() {
             Customers = new ObservableCollection<Customer>();
             for (int i = 1; i < 30; i++) {
@@ -19,17 +13,8 @@ namespace HighlightModifiedCells {
     }
 
     public class Customer {
-        public int ID {
-            get;
-            set;
-        }
-        public string Name {
-            get;
-            set;
-        }
-        public DateTime RegistrationDate {
-            get;
-            set;
-        }
+        public int ID { get; set; }
+        public string Name { get; set; }
+        public DateTime RegistrationDate { get; set; }
     }
 }

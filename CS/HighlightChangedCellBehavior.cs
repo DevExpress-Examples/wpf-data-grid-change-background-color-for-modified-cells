@@ -1,4 +1,3 @@
-using DevExpress.Data;
 using DevExpress.Mvvm.UI.Interactivity;
 using DevExpress.Xpf.Grid;
 using System;
@@ -8,7 +7,7 @@ using System.Windows;
 using System.Windows.Media;
 
 namespace HighlightModifiedCells {
-	public class ChangedCellsHighlightBehavior : Behavior<GridControl> {
+    public class ChangedCellsHighlightBehavior : Behavior<GridControl> {
         const string UnboundColumnPrefix = "IsEdited_";
         Dictionary<Tuple<object, string>, bool> modifiedCells = new Dictionary<Tuple<object, string>, bool>();
         Dictionary<Tuple<object, string>, object> originalValues = new Dictionary<Tuple<object, string>, object>();
@@ -18,9 +17,7 @@ namespace HighlightModifiedCells {
             set { SetValue(HighlightBrushProperty, value); }
         }
         protected TableView View {
-            get {
-                return (TableView)AssociatedObject.View;
-            }
+            get { return (TableView)AssociatedObject.View; }
         }
         protected override void OnAttached() {
             base.OnAttached();

@@ -14,7 +14,7 @@ This approach does not highlight cells if you change their values at the data so
 
 ## Implementation Details
 
-This example creates invisible [unbound columns](https://docs.devexpress.com/WPF/6124/controls-and-libraries/data-grid/grid-view-data-layout/columns-and-card-fields/unbound-columns) for each grid column. These Boolean unbound columns contain information on whether the corresponding grid column's cell was modified by a user. The [CustomUnboundColumnData](https://docs.devexpress.com/WPF/DevExpress.Xpf.Grid.GridControl.CustomUnboundColumnData) event populates unbound columns with data based on the `modifiedCells` collection. This manually created collection contains information about edited cells. The specified [format condition](https://docs.devexpress.com/WPF/17130/controls-and-libraries/data-grid/conditional-formatting) highlights cells based on data in unbound columns.
+This example creates invisible [unbound columns](https://docs.devexpress.com/WPF/6124/controls-and-libraries/data-grid/grid-view-data-layout/columns-and-card-fields/unbound-columns) for each grid column. These Boolean unbound columns contain information on whether the corresponding grid column's cell was modified by a user. The [CustomUnboundColumnData](https://docs.devexpress.com/WPF/DevExpress.Xpf.Grid.GridControl.CustomUnboundColumnData) event populates unbound columns with data. The specified [format condition](https://docs.devexpress.com/WPF/17130/controls-and-libraries/data-grid/conditional-formatting) highlights cells based on data in unbound columns.
 
 ## Files to Review
 

@@ -10,7 +10,7 @@ This example demonstrates how to highlight grid cells that were edited by a use
 
 ![image](https://user-images.githubusercontent.com/65009440/220330527-260df3c5-f67b-4afc-bc6d-6e2193b20121.png)
 
-This approach does not highlight cells if you change their values at the data source level.
+This approach does not highlight cells if you change their values at the data source level. In this case, you can use the [DataUpdateFormatCondition](https://docs.devexpress.com/WPF/DevExpress.Xpf.Grid.DataUpdateFormatCondition) instead.
 
 ## Implementation Details
 
@@ -27,9 +27,11 @@ This example creates invisible [unbound columns](https://docs.devexpress.com/WPF
 * [Behaviors](https://docs.devexpress.com/WPF/17442/mvvm-framework/behaviors)
 * [Conditional Formatting](https://docs.devexpress.com/WPF/17130/controls-and-libraries/data-grid/conditional-formatting)
 * [Unbound Columns](https://docs.devexpress.com/WPF/6124/controls-and-libraries/data-grid/grid-view-data-layout/columns-and-card-fields/unbound-columns)
+* [Format Changing Values](https://docs.devexpress.com/WPF/118929/controls-and-libraries/data-grid/conditional-formatting/conditional-formats/formatting-changing-values)
 
 ## More Examples
 
+* [WPF Data Grid - Highlight Modified Rows](https://github.com/DevExpress-Examples/how-to-highlight-modified-rows-e841)
 * [WPF MVVM Behaviors - Create a Custom Attached Behavior](https://github.com/DevExpress-Examples/wpf-mvvm-behaviors-create-a-custom-behavior)
 * [WPF Data Grid - Apply Conditional Formatting in Code Behind](https://github.com/DevExpress-Examples/how-to-apply-conditional-formatting-in-code-behind-t281415)
 * [WPF Data Grid - Create Unbound Columns](https://github.com/DevExpress-Examples/how-to-create-unbound-columns-e1503)

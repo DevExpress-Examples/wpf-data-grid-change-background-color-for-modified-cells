@@ -31,7 +31,6 @@ This example creates invisible [unbound columns](https://docs.devexpress.com/WPF
 
 ## More Examples
 
-* [WPF Data Grid - Highlight Modified Rows](https://github.com/DevExpress-Examples/how-to-highlight-modified-rows-e841)
 * [WPF MVVM Behaviors - Create a Custom Attached Behavior](https://github.com/DevExpress-Examples/wpf-mvvm-behaviors-create-a-custom-behavior)
 * [WPF Data Grid - Apply Conditional Formatting in Code Behind](https://github.com/DevExpress-Examples/how-to-apply-conditional-formatting-in-code-behind-t281415)
 * [WPF Data Grid - Create Unbound Columns](https://github.com/DevExpress-Examples/how-to-create-unbound-columns-e1503)

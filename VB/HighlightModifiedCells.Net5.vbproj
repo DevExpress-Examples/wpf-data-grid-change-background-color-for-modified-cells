@@ -1,7 +1,7 @@
 <Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
     <OptionInfer>On</OptionInfer>
-    <TargetFramework>net5.0-windows</TargetFramework>
+    <TargetFramework>net6.0-windows</TargetFramework>
     <OutputType>WinExe</OutputType>
     <RootNamespace>
     </RootNamespace>
@@ -10,7 +10,6 @@
     <UseWindowsForms>true</UseWindowsForms>
     <UseWPF>true</UseWPF>
     <Platforms>x86;AnyCPU</Platforms>
-    <CopyLocalLockFileAssemblies>false</CopyLocalLockFileAssemblies>
     <EnableDefaultApplicationDefinition>false</EnableDefaultApplicationDefinition>
   </PropertyGroup>
   <ItemGroup>
@@ -20,18 +19,7 @@
     <AppDesigner Include="Properties\" />
   </ItemGroup>
   <ItemGroup>
-    <PackageReference Include="DevExpress.Data" Version="22.2.*-*" />
-    <PackageReference Include="DevExpress.Data.Desktop" Version="22.2.*-*" />
-    <PackageReference Include="DevExpress.Mvvm" Version="22.2.*-*" />
-    <PackageReference Include="DevExpress.Office.Core" Version="22.2.*-*" />
-    <PackageReference Include="DevExpress.Pdf.Core" Version="22.2.*-*" />
-    <PackageReference Include="DevExpress.Printing.Core" Version="22.2.*-*" />
-    <PackageReference Include="DevExpress.RichEdit.Core" Version="22.2.*-*" />
-    <PackageReference Include="DevExpress.RichEdit.Export" Version="22.2.*-*" />
-    <PackageReference Include="DevExpress.Wpf.Core" Version="22.2.*-*" />
-    <PackageReference Include="DevExpress.Wpf.Grid.Core" Version="22.2.*-*" />
-    <PackageReference Include="DevExpress.Wpf.Printing" Version="22.2.*-*" />
-    <PackageReference Include="DevExpress.Wpf.Reporting" Version="22.2.*-*" />
+    <PackageReference Include="DevExpress.Wpf.Grid" Version="22.2.*-*" />
     <PackageReference Include="DevExpress.Wpf.Themes.All" Version="22.2.*-*" />
   </ItemGroup>
 </Project>

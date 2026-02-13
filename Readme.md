@@ -36,7 +36,7 @@ This example creates invisible [unbound columns](https://docs.devexpress.com/WPF
 * [WPF Data Grid - Apply Conditional Formatting in Code Behind](https://github.com/DevExpress-Examples/how-to-apply-conditional-formatting-in-code-behind-t281415)
 * [WPF Data Grid - Create Unbound Columns](https://github.com/DevExpress-Examples/how-to-create-unbound-columns-e1503)
 <!-- feedback -->
-## Does this example address your development requirements/objectives?
+## Does This Example Address Your Development Requirements/Objectives?
 
 [<img src="https://www.devexpress.com/support/examples/i/yes-button.svg"/>](https://www.devexpress.com/support/examples/survey.xml?utm_source=github&utm_campaign=wpf-data-grid-change-background-color-for-modified-cells&~~~was_helpful=yes) [<img src="https://www.devexpress.com/support/examples/i/no-button.svg"/>](https://www.devexpress.com/support/examples/survey.xml?utm_source=github&utm_campaign=wpf-data-grid-change-background-color-for-modified-cells&~~~was_helpful=no)
 
